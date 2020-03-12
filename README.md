@@ -60,3 +60,82 @@ export interface ICounter {
 + }
 
 ```
+
+## 使用 redux
+
+### 安装 redux
+
+```sh
+# yarn add
+$ yarn add redux react-redux @types/react-redux --save
+```
+
+### 创建一个 store
+
+```typescript
+// src/types/index.tsx
+export interface StoreState {
+  language: string;
+  counter: number;
+}
+```
+
+### 创建一个 action 类型
+
+```typescript
+// src/constants/index.tsx
+export const INCREMENT = "INCREMENT";
+export type INCREMENT = typeof INCREMENT;
+
+export const DECREMENT = "DECREMENT";
+export type DECREMENT = typeof DECREMENT;
+```
+
+### 创建 action
+
+```typescript
+// src/actions/index.tsx
+import * as constants from "../constants";
+
+export interface IIncrement {
+  type: constants.INCREMENT;
+}
+
+export interface IDecrement {
+  type: constants.DECREMENT;
+}
+
+export type CounterAction = IIncrement | IDecrement;
+
+export function incrementCounter(): CounterAction {
+  return {
+    type: constants.INCREMENT
+  };
+}
+
+export function decrementCounter(): CounterAction {
+  return {
+    type: constants.DECREMENT
+  };
+}
+```
+
+### 创建 reducer
+
+```typescript
+// src/reducers/index.tsx
+import { CounterAction } from "../actions";
+import { StoreState } from "../@types";
+import { INCREMENT, DECREMENT } from "../constants";
+
+export function counter(state: StoreState, action: CounterAction): StoreState {
+  switch (action.type) {
+    case INCREMENT:
+      return { ...state, counter: state.counter + 1 };
+    case DECREMENT:
+      return { ...state, counter: state.counter - 1 };
+    default:
+      return state;
+  }
+}
+```
