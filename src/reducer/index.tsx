@@ -7,7 +7,7 @@ export function counter(state: StoreState, action: CounterAction): StoreState {
         case INCREMENT:
             return { ...state, counter: state.counter + 1 };
         case DECREMENT:
-            return { ...state, counter: state.counter - 1 };
+            return { ...state, counter: Math.max(1, state.counter - 1) };
         default:
             return state;
     }
